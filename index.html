@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Home Loan</title>
-<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <style>
 	html{
 		height:100%;
@@ -26,95 +26,104 @@
 		margin-right:80px;
 		margin-bottom: 80px;
 	}
-	.over {position: fixed; left:0; top:0; width:100%; z-index:100;}
-	.tempContainer {position:fixed; width:100%; margin-right:0px; margin-left:0px; text-align:center; z-index:101;}
+	#outerdiv {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  z-index: 999;
+	  width: 100%;
+	  height: 100%;
+	  display: none;
+	  -webkit-backdrop-filter: blur(10px);
+	  backdrop-filter: blur(10px);
+	  background: rgba(120, 129, 147, .5);
+	  color: #fff;
+	  opacity: 1;
+	}
+	#bigimg {
+	  border: 5px solid rgba(255, 255, 255, 0.9);
+	  border-radius: 3px;
+	}
+	#outerdiv .caption-view {
+	  position: absolute;
+	  left: 0;
+	  bottom: 0;
+	  width: 100%;
+	  height: 38px;
+	  background-color: rgba(0, 0, 0, .2);
+	  text-align: center;
+	}
+	#outerdiv .caption-view p {
+	  line-height: 38px;
+	  color: #fff;
+	  margin: 0;
+	  padding: 0;
+	  font-size: 14px;
+	}
 </style>
 </head>
 <body>
 	<div class="payback">
-		<div class="over"></div>
 		<div style="font-size: 80px;">Home L</div>
 		<div>Name: test</div>
 		<div>Wing: 12345678</div>
 		<div>ABA:  001001001</div>
 		<div>Phone:011011011</div>
-		<div class="logoImg amplifyImg">
-			<img src="./1.png" />
+		<div>
+			<div id="outerdiv"></div>
+			 <!-- 这段放在哪儿没什么要求，个人建议加在文章相关部分 -->
+			
+			 <div class="bailiuli_com" >
+				 <img src="1.png" width="300" height="300" id="img" />
+			 </div>
+			 <!-- 需要在你的文章DIV标签添加class="bailiuli_com" -->
+			
 		</div>
 	</div>
 </body>
-	<script>
-		
- var imgsObj = $('.amplifyImg img');//需要放大的图像
-    if(imgsObj){
-		$.each(imgsObj,function(){
-			$(this).click(function(){
-				var currImg = $(this);
-				coverLayer(1);
-				var tempContainer = $('<div class=tempContainer></div>');//图片容器
-				with(tempContainer){//width方法等同于$(this)
-					appendTo("body");
-					var windowWidth=$(window).width();
-					var windowHeight=$(window).height();
-					//获取图片原始宽度、高度
-					var orignImg = new Image();
-					orignImg.src =currImg.attr("src") ;
-					var currImgWidth= orignImg.width;
-					var currImgHeight = orignImg.height;
-					if(currImgWidth<windowWidth){//为了让图片不失真，当图片宽度较小的时候，保留原图
-						if(currImgHeight<windowHeight){
-							var topHeight=(windowHeight-currImgHeight)/2;
-							if(topHeight>35){/*此处为了使图片高度上居中显示在整个手机屏幕中：因为在android,ios的微信中会有一个title导航，35为title导航的高度*/
-								topHeight=topHeight-35;
-								css('top',topHeight);
-							}else{
-								css('top',0);
-							}
-							html('<img border=0 src=' + currImg.attr('src') + '>');
-						}else{
-							css('top',0);
-							html('<img border=0 src=' + currImg.attr('src') + ' height='+windowHeight+'>');
-						}
-					}else{
-						var currImgChangeHeight=(currImgHeight*windowWidth)/currImgWidth;
-						if(currImgChangeHeight<windowHeight){
-							var topHeight=(windowHeight-currImgChangeHeight)/2;
-							if(topHeight>35){
-								topHeight=topHeight-35;
-								css('top',topHeight);
-							}else{
-								css('top',0);
-							}
-							html('<img border=0 src=' + currImg.attr('src') + ' width='+windowWidth+';>');
-						}else{
-							css('top',0);
-							html('<img border=0 src=' + currImg.attr('src') + ' width='+windowWidth+'; height='+windowHeight+'>');
-						}
-					}
-				}
-				tempContainer.click(function(){
-					$(this).remove();
-					coverLayer(0);
-					});
-			});
-		});
-    }
-    else{
-    	return false;
-    }
-    //使用禁用蒙层效果
-    function coverLayer(tag){
-		with($('.over')){
-			if(tag==1){
-				css('height',$(document).height());
-				css('display','block');
-				css('opacity',1);
-				css("background-color","#191919");
+<script type="text/javascript">
+$(function() {
+	$(".bailiuli_com img").click(function() {
+		var _this = $(this); 
+		imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+	});
+});
+function imgShow(outerdiv, innerdiv, bigimg, _this) {
+	var src = _this.attr("src"); 
+	var alt = _this.attr("alt"); 
+	$("#outerdiv").html('<div id="innerdiv" style="position:absolute;"><img id="bigimg" src="' + src + '" alt="' + alt + '"/></div><div class="caption-view"><p>' + alt + '</p></div>');
+	$("<img/>").attr("src", src).load(function() {
+		var windowW = $(window).width(); 
+		var windowH = $(window).height(); 
+		var realWidth = this.width; 
+		var realHeight = this.height; 
+		var imgWidth, imgHeight;
+		var scale = 0.9; 
+		if (realHeight > windowH * scale) { 
+			imgHeight = windowH * scale; 
+			imgWidth = imgHeight / realHeight * realWidth; 
+			if (imgWidth > windowW * scale) { 
+				imgWidth = windowW * scale; 
 			}
-			else{
-				css('display','none');
-			}
+		} else if (realWidth > windowW * scale) { 
+			imgWidth = windowW * scale; 
+			imgHeight = imgWidth / realWidth * realHeight; 
+		} else { 
+			imgWidth = realWidth;
+			imgHeight = realHeight;
 		}
-    }
-	</script>
+		$(bigimg).css("width", imgWidth); 
+		var w = (windowW - imgWidth) / 2; 
+		var h = (windowH - imgHeight) / 2; 
+		$(innerdiv).css({
+			"top": h,
+			"left": w
+		}); 
+		$(outerdiv).fadeIn("fast"); 
+	});
+	$(outerdiv).click(function() { 
+		$(this).fadeOut("fast");
+	});
+}
+</script>
 </html>
