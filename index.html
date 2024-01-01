@@ -19,7 +19,14 @@
     // 在 #app 标签下渲染一个按钮组件
     new Vue({
         el: '#app',
-        template: `<van-tabs v-model="active">
+        template: `
+          <div>
+        <van-notice-bar :scrollable="true" mode="closeable">សេចក្តីជូនដំណឹង
+          សួស្តីអតិថិជនជាទីស្រលាញ់ទាំងអស់គ្នា!
+          ដោយសារថ្មីៗនេះមានជនឆបោក បន្លំបោកប្រាស់ផ្ញេីរគណនីអោយភ្ញៀវវេរលុយ  ប៉ុន្តែមិនមែនគណនីលេខខាងយេីងខ្ញុំទេ។ យេីងខ្ញុំនិងមិនទទួលខុសត្រូវទេរាល់បញ្ហាវេរខុសទេ។
+          ដូច្នេះមុនពេលវេរត្រលប់សូមអ្នកត្រួតពិនិត្យគណនី ឈ្មោះ  Neang Sovanny និងលេខ True :069 402 064  wing : 100140417 ជាមុនសិន ជៀសវាងមានការបោកប្រាស់។ ខាងយេីងខ្ញុំនិងមិនទទួលខុសត្រូវទេ
+          អរគុណ។🙏🏻</van-notice-bar>
+          <van-tabs v-model="active">
                   <van-tab title="Wing">
                     <van-image
                         style="width:100%;"
@@ -32,14 +39,15 @@
                         src="/src/Home-T.png"
                     />
                   </van-tab>
-                </van-tabs>`,
+                </van-tabs>
+          </div>`,
         data:{
             active: 1
         }
     });
 
     // 调用函数组件，弹出一个 Toast
-    vant.Toast('提示');
+    // vant.Toast('提示');
 
     // 通过 CDN 引入时不会自动注册 Lazyload 组件
     // 可以通过下面的方式手动注册
