@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 引入样式文件 -->
     <link rel="stylesheet" href="https://unpkg.com/vant@2.12/lib/index.css" />
 
@@ -19,13 +20,21 @@
     new Vue({
         el: '#app',
         template: `<van-tabs v-model="active">
-  <van-tab title="标签 1">内容 1</van-tab>
-  <van-tab title="标签 2">内容 2</van-tab>
-  <van-tab title="标签 3">内容 3</van-tab>
-  <van-tab title="标签 4">内容 4</van-tab>
-</van-tabs>`,
+                  <van-tab title="Wing">
+                    <van-image
+                        style="width:100%;"
+                        src="/src/Home-W.png"
+                    />
+                  </van-tab>
+                  <van-tab title="Ture-Money">
+                    <van-image
+                        style="width:100%;"
+                        src="/src/Home-T.png"
+                    />
+                  </van-tab>
+                </van-tabs>`,
         data:{
-            active: true
+            active: 1
         }
     });
 
